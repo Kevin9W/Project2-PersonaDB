@@ -10,7 +10,7 @@ app.get('/', (request, response)=>{
 	response.send('Uh something o-O')
 })
 app.use('/api/personas',personasRouter)
-//app.use('/api/skills',skillsRouter)
+app.use('/api/skills',skillsRouter)
 
 
 app.listen(PORT,()=>{

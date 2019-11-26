@@ -4,11 +4,11 @@ DROP TABLE IF EXISTS personas_skills;
 DROP TABLE IF EXISTS stats;
 DROP TABLE IF EXISTS elementals;
 
-CREATE TABLE IF NOT EXISTS personas (name TEXT, arcana TEXT);
-CREATE TABLE IF NOT EXISTS skills (name TEXT, type TEXT, effect TEXT, cost INTEGER, cost_type TEXT);
-CREATE TABLE IF NOT EXISTS personas_skills (persona_id INTEGER, skills_id INTEGER);
-CREATE TABLE IF NOT EXISTS stats (persona_id, strength INTEGER, magic INTEGER, endurance INTEGER, agility INTEGER, luck INTEGER);
-CREATE TABLE IF NOT EXISTS elementals (persona_id INTEGER, physical TEXT, gun TEXT, fire TEXT, ice TEXT, electric TEXT, wind TEXT, psychic TEXT, nuclear TEXT, bless TEXT, curse TEXT);
+CREATE TABLE personas (name TEXT, arcana TEXT);
+CREATE TABLE skills (name TEXT, type TEXT, effect TEXT, cost INTEGER, cost_type TEXT);
+CREATE TABLE personas_skills (persona_id INTEGER, skills_id INTEGER);
+CREATE TABLE stats (persona_id, strength INTEGER, magic INTEGER, endurance INTEGER, agility INTEGER, luck INTEGER);
+CREATE TABLE elementals (persona_id INTEGER, physical TEXT, gun TEXT, fire TEXT, ice TEXT, electric TEXT, wind TEXT, psychic TEXT, nuclear TEXT, bless TEXT, curse TEXT);
 
 INSERT INTO personas VALUES ("Arsene", "Fool");
 INSERT INTO skills VALUES ("Eiha", "Curse", "Deals weak Curse damage to 1 foe.", 4, "SP");

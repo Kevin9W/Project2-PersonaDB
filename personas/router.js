@@ -18,7 +18,7 @@ router.get('/',(request,response)=>{
 //--Get all info on one---
 
 router.get('/:name',(request,response)=>{
-	let personaName=request.params.name
+	let personaName=[request.params.name]
 	let foundName
 	let foundSkills
 	let foundStats
@@ -80,7 +80,7 @@ router.post('/',(request,response)=>{
 	    	response.sendStatus(500)
 	    }
 	    else {
-		    model.findOid(newName,(error,data)=>{
+		    model.findOid(newName[0],(error,data)=>{
 		    	if (error) {
 		     		console.log("Find new persona failed", error);
 		    		response.sendStatus(500)
@@ -102,7 +102,7 @@ router.post('/',(request,response)=>{
 						  		}
 						  		else {
 						  			for (let skill of newSkills){
-							  			model.findSkillOid(skill,(error,data)=>{
+							  			model.findSkillOid([skill],(error,data)=>{
 									    	if (error) {
 									    		console.log("Find new skills oid failed", error);
 									    		response.sendStatus(500)
@@ -208,16 +208,51 @@ router.put('/:name',(request,response)=>{
 	})
 })
 
-//---Delete---
+//---Delete Persona and all relations---
 
 router.delete('/:name',(request,response)=>{
-	let toDelete=request.params.name
-	model.deletePersona(toDelete,error=>{
+	let toDelete=[request.params.name]
+	model.findOid(toDelete,(error,data)=>{
 		if (error) {
-	      console.log("Create delete persona failed", error);
-	      response.sendStatus(500)
-	    }
-	    else response.sendStatus(200)
+			      console.log("Find persona oid failed", error);
+			      response.sendStatus(500)
+			    }
+		else{
+			let toDeleteOid=[data.rowid]
+			model.deletePersona(toDelete,error=>{
+				if (error) {
+			      console.log("Create delete persona failed", error);
+			      response.sendStatus(500)
+			    }
+			    else{
+			    	model.deleteStats(toDeleteOid,error=>{
+			    		if (error) {
+					      console.log("Create delete persona failed", error);
+					      response.sendStatus(500)
+					    }
+					    else{
+					    	model.deleteEle(toDeleteOid,error=>{
+					    		if (error) {
+							      console.log("Create delete persona failed", error);
+							      response.sendStatus(500)
+							    }
+							    else{
+							    	model.deleteSkills(toDeleteOid,error=>{
+							    		if (error) {
+									      console.log("Create delete persona failed", error);
+									      response.sendStatus(500)
+									    }
+									    else{
+									    	response.sendStatus(200)
+									    }
+							    	})
+							    }
+					    	})
+					    }
+			    	})
+			    }
+			})
+		}
 	})
 })
 

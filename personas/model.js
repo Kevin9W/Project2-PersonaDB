@@ -24,14 +24,14 @@ function findOid(name,callback){
 	let findOidQuery=`
 	SELECT personas.oid FROM personas
 	WHERE personas.name=?`
-	database.get(findOidQuery,name[0],callback) 
+	database.get(findOidQuery,name,callback) 
 }
 
 function findSkillOid(skill,callback){
 	let findSkillQuery=`
 	SELECT skills.oid FROM skills
 	WHERE skills.name=?`
-	database.get(findSkillQuery,[skill],callback)
+	database.get(findSkillQuery,skill,callback)
 }
 
 function linkSkill(skill,callback){
@@ -80,8 +80,27 @@ function updateSkills(body,callback){
 
 function deletePersona(name,callback){
 	let deletePersonaQuery=`
-	DELETE FROM personas WHERE personas.name=?`
-	database.run(deletePersonaQuery,name[0],callback)
+	DELETE FROM personas
+	WHERE personas.name=?`
+	database.run(deletePersonaQuery,name,callback)
+}
+function deleteStats(id,callback){
+	let deleteStatsQuery=`
+	DELETE FROM stats
+	WHERE persona_id=?`
+	database.run(deleteStatsQuery,id,callback)
+}
+function deleteEle(id,callback){
+	let deleteEleQuery=`
+	DELETE FROM elementals
+	WHERE persona_id=?`
+	database.run(deleteEleQuery,id,callback)
+}
+function deleteSkills(id,callback){
+	let deleteSkillsQuery=`
+	DELETE FROM personas_skills
+	WHERE persona_id=?`
+	database.run(deleteSkillsQuery,id,callback)
 }
 
 //---Finding---
@@ -96,7 +115,7 @@ function findName(name,callback){
 	let getNameQuery=`
 	SELECT personas.name, personas.arcana FROM personas 
 	WHERE personas.name=?`
-	database.get(getNameQuery,[name],callback)
+	database.get(getNameQuery,name,callback)
 }
 function findSkills(name,callback){
 	let getSkillsQuery=`
@@ -104,28 +123,28 @@ function findSkills(name,callback){
 	JOIN personas_skills ON personas.oid=persona_id
 	JOIN skills ON skills.oid=skills_id
 	WHERE personas.name=?`
-	database.all(getSkillsQuery,[name],callback)
+	database.all(getSkillsQuery,name,callback)
 }
 function findStats(name,callback){
 	let getStatsQuery=`
 	SELECT strength, magic, endurance, agility, luck FROM stats 
 	JOIN personas ON personas.oid=persona_id
 	WHERE personas.name=?`
-	database.get(getStatsQuery,[name],callback)
+	database.get(getStatsQuery,name,callback)
 }
 function findEle(name,callback){
 	let getEleQuery=`
 	SELECT physical,gun,fire,ice,electric,wind,psychic,nuclear,curse,bless FROM elementals 
 	JOIN personas ON personas.oid=persona_id
 	WHERE personas.name=?`
-	database.get(getEleQuery,[name],callback)
+	database.get(getEleQuery,name,callback)
 }
 
 module.exports={
-	getAll, deletePersona,
-	findName, findSkills, findStats, findEle,
+	getAll, findName, findSkills, findStats, findEle,
 	createName, createStats,createEle, findOid, findSkillOid, linkSkill,
-	updateName, updateStats, updateEle, updateSkills, findP_SRow
+	updateName, updateStats, updateEle, updateSkills, findP_SRow,
+	deletePersona, deleteStats, deleteEle,deleteSkills,
 }
 
 

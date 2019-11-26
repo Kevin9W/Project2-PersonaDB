@@ -38,3 +38,4 @@ INSERT INTO personas_skills VALUES(2,10);
 INSERT INTO stats VALUES(2,2,3,3,3,2);
 INSERT INTO elementals VALUES(2,"--","Weak","Absorb","Weak","--","Weak","--","--","--","--");
 
+INSERT INTO skills VALUES ("deleteMe", "Fire", "Deals 1337 Fire damage to 1 foe.", 4, "SP");

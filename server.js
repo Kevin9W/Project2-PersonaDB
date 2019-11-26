@@ -1,6 +1,8 @@
 const express=require('express')
 const personasRouter=require('./personas/router')
 const skillsRouter=require('./skills/router')
+const statsRouter=require('./stats/router')
+const eleRouter=require('./elementals/router')
 
 let app=express()
 const PORT=9000;
@@ -11,6 +13,8 @@ app.get('/', (request, response)=>{
 })
 app.use('/api/personas',personasRouter)
 app.use('/api/skills',skillsRouter)
+app.use('/api/stats',statsRouter)
+//app.use('/api/elementals',eleRouter)
 
 
 app.listen(PORT,()=>{

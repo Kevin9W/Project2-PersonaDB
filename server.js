@@ -9,12 +9,12 @@ const PORT=9000;
 
 app.use(express.json())
 app.get('/', (request, response)=>{
-	response.send('Uh something o-O')
+	response.status(200).send('Uh something o-O')
 })
 app.use('/api/personas',personasRouter)
 app.use('/api/skills',skillsRouter)
 app.use('/api/stats',statsRouter)
-//app.use('/api/elementals',eleRouter)
+app.use('/api/elementals',eleRouter)
 
 
 app.listen(PORT,()=>{

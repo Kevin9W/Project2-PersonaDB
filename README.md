@@ -313,4 +313,93 @@ Skills - Up to 8 unique skills can be updated or added.
 ### DELETE /api/personas/{name}/
 This request will delete the persona with the {name} from the request parameters. Will also delete all content and relations to this persona in other tables.
 
+## Skills
+
+### GET /api/skills/
+This route will retrieve all skills and their information.
+```
+{
+    "skills": [
+        {
+            "name": "Eiha",
+            "type": "Curse",
+            "effect": "Deals weak Curse damage to 1 foe.",
+            "cost": 4,
+            "cost_type": "SP"
+        },
+        {
+            "name": "Cleave",
+            "type": "Phys",
+            "effect": "Deals weak Phys damage to 1 foe.",
+            "cost": 6,
+            "cost_type": "% HP"
+        },
+        {
+            "name": "Sukunda",
+            "type": "Support",
+            "effect": "Decrease 1 foe's Agility for 3 turns.\t",
+            "cost": 8,
+            "cost_type": "SP"
+        }
+   ]
+}
+```
+Skills
+
+|Name            |Description                                           |Type    |
+|----------------|------------------------------------------------------|--------|
+|name       	 |The name of the skill.  							    |string  |
+|type            |The elemental type of the skill. 				        |string  |
+|effect    	     |The effect of the skill.      					    |string  |
+|cost            |The interger cost of the skill. 	 				    |integer |
+|cost_type       |The type of resource the skill will consume. 	        |string  |
+
+### GET /api/skills/{name}/
+This route will retrieve the information on the skill with the {name} from the request parameters.
+
+Response:
+```
+{
+    "name": "Eiha",
+    "type": "Curse",
+    "effect": "Deals weak Curse damage to 1 foe.",
+    "cost": 4,
+    "cost_type": "SP"
+}
+```
+|Name            |Description                                           |Type    |
+|----------------|------------------------------------------------------|--------|
+|name       	 |The name of the chosen skill.  						|string  |
+|type            |The elemental type of the chosen skill. 		        |string  |
+|effect    	     |The effect of the chosen skill.      				    |string  |
+|cost            |The interger cost of the chosen skill. 			    |integer |
+|cost_type       |The type of resource the chosen skill will consume.   |string  |
+
+### GET /api/skills/{name}/personas/
+This route will retrieve the names of personas that have the skill with the {name} from the request parameters
+
+Response:
+```
+{
+    "personas": [
+        {
+            "name": "Jack-o'-Lantern",
+            "arcana": "Magician"
+        },
+        {
+            "name": "Pixie",
+            "arcana": "Lovers"
+        }
+    ]
+}
+```
+Personas
+
+|Name            |Description                                           |Type    |
+|----------------|------------------------------------------------------|--------|
+|name            |The name of persona with the chosen skill.            |string  |
+|arcana          |The tarot card arcana for persona with the chosen.    |string  |
+
+
+
 

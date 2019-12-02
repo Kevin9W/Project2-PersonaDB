@@ -11,11 +11,13 @@ router.get('/',(request,response)=>{
 	      console.log("Get all skills failed", error);
 	      response.sendStatus(500)
 	    }
-	    else response.status(200).json(data)
+	    else response.status(200).json({
+	    	"skills":data
+	    })
 	})
 })
 
-//--Get one skill
+//---Get one skill---
 
 router.get('/:name',(request,response)=>{
 	let skillName=[request.params.name]
@@ -25,6 +27,21 @@ router.get('/:name',(request,response)=>{
 	      	response.sendStatus(500)
 	    }
 	    else response.status(200).json(data)
+	})
+})
+
+//---Get personas using skill---
+
+router.get('/:name/personas',(request,response)=>{
+	let skillName=[request.params.name]
+	model.getPersonas(skillName,(error,data)=>{
+		if (error) {
+	      	console.log("Get personas failed", error);
+	      	response.sendStatus(500)
+	    }
+	    else response.status(200).json({
+	    	"personas":data
+	    })
 	})
 })
 
@@ -46,14 +63,14 @@ router.post('/',(request,response)=>{
 router.put('/:name',(request,response)=>{
 	let updateSkillName=[request.params.name]
 	let updateSkillBody=Object.values(request.body)
-	model.findSkillOid(updateSkillName,(error,data)=>{
+	model.getSkillOid(updateSkillName,(error,data)=>{
 		if (error) {
 	        console.log("Find skill oid failed", error);
 	        response.sendStatus(500)
 	    }
 		else {
-			let oidToChange=data.rowid
-			updateSkillBody.push(oidToChange)
+			let skillOid=data.rowid
+			updateSkillBody.push(skillOid)
 			model.updateSkill(updateSkillBody,error=>{
 				if (error) {
 			    	console.log("Update skill failed", error);
@@ -63,19 +80,37 @@ router.put('/:name',(request,response)=>{
 			})	
 		}	
 	})
-
 })
 
 //---Delete a skill---
 
 router.delete('/:name',(request,response)=>{
 	let skillName=[request.params.name]
-	model.deleteSkill(skillName,error=>{
+	model.getSkillOid(skillName,(error,data)=>{
 		if (error) {
-	      console.log("Delete skill failed", error);
-	      response.sendStatus(500)
+	      	console.log("Find skill id failed", error);
+	      	response.sendStatus(500)
 	    }
-	    else response.sendStatus(200)
+	    else {	
+  	    	let skillOid=[data.rowid]
+			model.deleteSkill(skillName,error=>{
+				if (error) {
+			      	console.log("Delete skill failed", error);
+			      	response.sendStatus(500)
+			    }
+			    else {   	
+			    	model.deleteSkillLink(skillOid,error=>{
+			    		if (error) {
+					      	console.log("Delete skill link failed", error);
+					      	response.sendStatus(500)
+					    }
+					    else {
+					    	response.sendStatus(200)
+					    }
+			    	})
+			    }
+	    	})
+	    }
 	})
 })
 

@@ -1,5 +1,7 @@
 const database=require('../database')
 
+//---Find---
+
 function getAll(callback){
 	let getAllQuery=`
 	SELECT * FROM skills`
@@ -13,18 +15,31 @@ function getOne(name,callback){
 	database.get(getOneQuery,name,callback)
 }
 
+function getSkillOid(skill,callback){
+	let getSkillQuery=`
+	SELECT skills.oid FROM skills
+	WHERE skills.name=?`
+	database.get(findSkillQuery,skill,callback)
+}
+
+function getPersonas(skill,callback){
+	let getPersonasQuery=`
+	SELECT personas.name FROM personas_skills
+	JOIN personas ON personas.oid=persona_id
+	JOIN skills ON skills.oid=skills_id
+	WHERE skills.name=?`
+	database.all(getPersonasQuery,skill,callback)
+}
+
+//---Create---
+
 function createSkill(body,callback){
 	let createSkillQuery=`
 	INSERT INTO skills VALUES (?,?,?,?,?)`
 	database.run(createSkillQuery,body,callback)
 }
 
-function findSkillOid(skill,callback){
-	let findSkillQuery=`
-	SELECT skills.oid FROM skills
-	WHERE skills.name=?`
-	database.get(findSkillQuery,skill,callback)
-}
+//---Update---
 
 function updateSkill(body,callback){
 	let updateSkillQuery=`
@@ -34,6 +49,8 @@ function updateSkill(body,callback){
 	database.run(updateSkillQuery,body,callback)
 }
 
+//---Delete---
+
 function deleteSkill(name,callback){
 	let deleteSkillQuery=`
 	DELETE FROM skills
@@ -41,6 +58,13 @@ function deleteSkill(name,callback){
 	database.run(deleteSkillQuery,name,callback)
 }
 
+function deleteSkillLink(id,callback){
+	let deleteSkillLinkQuery=`
+	DELETE FROM personas_skills
+	WHERE skills_id=?`
+	database.run(deleteSkillLinkQuery,id,callback)
+}
+
 module.exports={
-	getAll, getOne, createSkill, findSkillOid, updateSkill, deleteSkill
+	getAll, getOne, getPersonas, getSkillOid, createSkill, updateSkill, deleteSkill, deleteSkillLink
 }

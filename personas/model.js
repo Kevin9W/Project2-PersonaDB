@@ -1,11 +1,48 @@
 const database=require('../database')
 
+//---Finding---
+
+function getAll(callback){
+	let getAllQuery=`
+	SELECT personas.name, personas.arcana FROM personas`
+	database.all(getAllQuery,callback)
+}
+
+function findInfo(name,callback){
+	let getInfoQuery=`
+	SELECT personas.name, personas.arcana FROM personas 
+	WHERE personas.name=?`
+	database.get(getInfoQuery,name,callback)
+}
+function findSkills(name,callback){
+	let getSkillsQuery=`
+	SELECT skills.name AS "name", skills.type FROM personas 
+	JOIN personas_skills ON personas.oid=persona_id
+	JOIN skills ON skills.oid=skills_id
+	WHERE personas.name=?`
+	database.all(getSkillsQuery,name,callback)
+}
+function findStats(name,callback){
+	let getStatsQuery=`
+	SELECT strength, magic, endurance, agility, luck FROM stats 
+	JOIN personas ON personas.oid=persona_id
+	WHERE personas.name=?`
+	database.get(getStatsQuery,name,callback)
+}
+function findEle(name,callback){
+	let getEleQuery=`
+	SELECT physical,gun,fire,ice,electric,wind,psychic,nuclear,curse,bless FROM elementals 
+	JOIN personas ON personas.oid=persona_id
+	WHERE personas.name=?`
+	database.get(getEleQuery,name,callback)
+}
+
 //---Creating---
 
-function createName(body,callback){
-	let createNameQuery=`
+function createInfo(body,callback){
+	let createInfoQuery=`
 	INSERT INTO personas VALUES (?,?)`
-	database.run(createNameQuery,body,callback)
+	database.run(createInfoQuery,body,callback)
 }	
 
 function createStats(stats,callback){
@@ -40,25 +77,27 @@ function linkSkill(skill,callback){
 	database.run(linkSkillsQuery,skill,callback)
 }
 //---Updating--
-function updateName(body,callback){
-	let updateNameQuery=`
+function updateInfo(body,callback){
+	let updateInfoQuery=`
 	UPDATE personas
 	SET name=?, arcana=?
 	WHERE personas.oid=?`
-	database.run(updateNameQuery,body,callback)
+	database.run(updateInfoQuery,body,callback)
 }
 
 function updateStats(body,callback){
 	let updateStatsQuery=`
 	UPDATE stats
-	SET persona_id=?, strength=?, magic=?, endurance=?, agility=?, luck=?`
+	SET strength=?, magic=?, endurance=?, agility=?, luck=?
+	WHERE persona_id=?`
 	database.run(updateStatsQuery,body,callback)
 }
 
 function updateEle(body,callback){
 	let updateElementalsQuery=`
 	UPDATE elementals
-	SET persona_id=?, physical=?, gun=?,fire=?, ice=?, electric=?, wind=?, psychic=?, nuclear=?, curse=?, bless=?`
+	SET physical=?, gun=?,fire=?, ice=?, electric=?, wind=?, psychic=?, nuclear=?, curse=?, bless=?
+	WHERE persona_id=?`
 	database.run(updateElementalsQuery,body,callback)
 }
 function findP_SRow(body,callback){
@@ -103,47 +142,10 @@ function deleteSkills(id,callback){
 	database.run(deleteSkillsQuery,id,callback)
 }
 
-//---Finding---
-
-function getAll(callback){
-	let getAllQuery=`
-	SELECT personas.name, personas.arcana FROM personas`
-	database.all(getAllQuery,callback)
-}
-
-function findName(name,callback){
-	let getNameQuery=`
-	SELECT personas.name, personas.arcana FROM personas 
-	WHERE personas.name=?`
-	database.get(getNameQuery,name,callback)
-}
-function findSkills(name,callback){
-	let getSkillsQuery=`
-	SELECT skills.name FROM personas 
-	JOIN personas_skills ON personas.oid=persona_id
-	JOIN skills ON skills.oid=skills_id
-	WHERE personas.name=?`
-	database.all(getSkillsQuery,name,callback)
-}
-function findStats(name,callback){
-	let getStatsQuery=`
-	SELECT strength, magic, endurance, agility, luck FROM stats 
-	JOIN personas ON personas.oid=persona_id
-	WHERE personas.name=?`
-	database.get(getStatsQuery,name,callback)
-}
-function findEle(name,callback){
-	let getEleQuery=`
-	SELECT physical,gun,fire,ice,electric,wind,psychic,nuclear,curse,bless FROM elementals 
-	JOIN personas ON personas.oid=persona_id
-	WHERE personas.name=?`
-	database.get(getEleQuery,name,callback)
-}
-
 module.exports={
-	getAll, findName, findSkills, findStats, findEle,
-	createName, createStats,createEle, findOid, findSkillOid, linkSkill,
-	updateName, updateStats, updateEle, updateSkills, findP_SRow,
+	getAll, findInfo, findSkills, findStats, findEle,
+	createInfo, createStats,createEle, findOid, findSkillOid, linkSkill,
+	updateInfo, updateStats, updateEle, updateSkills, findP_SRow,
 	deletePersona, deleteStats, deleteEle,deleteSkills,
 }
 

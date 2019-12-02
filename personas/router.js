@@ -11,49 +11,51 @@ router.get('/',(request,response)=>{
       console.log("Get all personas failed", error);
       response.sendStatus(500)
     }
-    else response.status(200).json(data)
+    else response.status(200).json({
+    		"personas":data
+    	})
 	})
 })
 
 //--Get all info on one---
 
-router.get('/:name',(request,response)=>{
+router.get('/:name',(request,response,next)=>{
 	let personaName=[request.params.name]
-	let foundName
-	let foundSkills
-	let foundStats
-	let foundEle
-	model.findName(personaName,(error,data)=>{
+	model.findInfo(personaName,(error,data)=>{
 		if (error) {
 	     	console.log("Get one persona failed", error);
 	     	response.sendStatus(500)
 	    }
 	    else {
-	  		foundName=data
+	  		let foundInfo=data
 		    model.findEle(personaName,(error,data)=>{
 		    	if (error) {
 		    		console.log("Get one persona elementals failed", error);
 		     		response.sendStatus(500)
 			   	}
 			    else {
-			    	foundEle=data
+			    	let foundEle=data
 				    model.findStats(personaName,(error,data)=>{
 				    	if (error) {
 				    		console.log("Get one persona stats failed", error);
 				     		response.sendStatus(500)
 					   	}
 					    else {
-					    	foundStats=data
+					    	let foundStats=data
 						    model.findSkills(personaName,(error,data)=>{
 								if (error) {
 							    	console.log("Get one persona skills failed", error);
 							    	response.sendStatus(500)
 							    }
 							    else {
-							    	data.unshift(foundEle)
-							    	data.unshift(foundStats)
-							    	data.unshift(foundName)
-							    	response.status(200).json(data)
+							    	let foundSkills=data
+							    	response.status(200).json({
+							    		"name":foundInfo.name,
+							    		"arcana":foundInfo.arcana,
+							    		"stats":[foundStats],
+							    		"elementals":[foundEle],
+							    		"skills":foundSkills
+							    	})
 							    }
 							})
 						}
@@ -67,20 +69,20 @@ router.get('/:name',(request,response)=>{
 //---Create---
 
 router.post('/',(request,response)=>{
-	let newName=Object.values(request.body[0])
-	let newStats=Object.values(request.body[1])
-	let newEle=Object.values(request.body[2])
+	let newInfo=[request.body.name, request.body.arcana]
+	let newStats=Object.values(request.body.stats[0])
+	let newEle=Object.values(request.body.elementals[0])
 	let newSkills=[]
-	for (i=3;i<request.body.length;i++){
-		newSkills.push(Object.values(request.body[i])[0])
+	for (i=0;i<request.body.skills.length;i++){
+		newSkills.push(request.body.skills[i].name)
 	}
-	model.createName(newName,error=>{
+	model.createInfo(newInfo,error=>{
 		if (error) {
 	     	console.log("Create new persona failed", error);
 	    	response.sendStatus(500)
 	    }
 	    else {
-		    model.findOid(newName[0],(error,data)=>{
+		    model.findOid(newInfo[0],(error,data)=>{
 		    	if (error) {
 		     		console.log("Find new persona failed", error);
 		    		response.sendStatus(500)
@@ -134,12 +136,12 @@ router.post('/',(request,response)=>{
 
 router.put('/:name',(request,response)=>{
 	let personaToChange=[request.params.name]
-	let newName=Object.values(request.body[0])
-	let newStats=Object.values(request.body[1])
-	let newEle=Object.values(request.body[2])
+	let newInfo=[request.body.name, request.body.arcana]
+	let newStats=Object.values(request.body.stats[0])
+	let newEle=Object.values(request.body.elementals[0])
 	let newSkills=[]
-	for (i=3;i<request.body.length;i++){
-		newSkills.push(Object.values(request.body[i])[0])
+	for (i=0;i<request.body.skills.length;i++){
+		newSkills.push(request.body.skills[i].name)
 	}
 	model.findOid(personaToChange,(error,data)=>{
 		if (error) {
@@ -148,21 +150,21 @@ router.put('/:name',(request,response)=>{
 	    }
 	    else {
 	    	let oidToChange=data.rowid
-	    	newName.push(oidToChange)
-	    	model.updateName(newName,error=>{
+	    	newInfo.push(oidToChange)
+	    	model.updateInfo(newInfo,error=>{
 	    		if (error) {
-			     	console.log("Update persona name and arcana failed", error);
+			     	console.log("Update persona info and arcana failed", error);
 			    	response.sendStatus(500)
 			    }
 			    else {
-			    	newStats.unshift(oidToChange)
+			    	newStats.push(oidToChange)
 			    	model.updateStats(newStats,error=>{
 			    		if (error) {
 					     	console.log("Update persona stats failed", error);
 					    	response.sendStatus(500)
 					    }
 					    else {
-					    	newEle.unshift(oidToChange)
+					    	newEle.push(oidToChange)
 					    	model.updateEle(newEle,error=>{
 					    		if (error) {
 							     	console.log("Update persona elementals failed", error);
@@ -171,22 +173,23 @@ router.put('/:name',(request,response)=>{
 							    else {
 							    	model.findP_SRow(oidToChange,(error,data)=>{
 							    		if (error) {
-									     	console.log("Update persona elementals failed", error);
+									     	console.log("Find personas_skills data failed", error);
 									    	response.sendStatus(500)
 									    }
 									    else {
 									    	let oldSkillsArr=data
 											for (let i=0;i<newSkills.length;i++){
-									  			model.findSkillOid(newSkills[i],(error,data)=>{
+									  			model.findSkillOid([newSkills[i]],(error,data)=>{
 											    	if (error) {
 											    		console.log("Find new skills oid failed", error);
 											    		response.sendStatus(500)
 											  		}
 											  		else {
-											  			let newSkillId=[data.rowid]
+											  			let newSkillId=data.rowid
 											  			let updateSkillLink=Object.values(oldSkillsArr[i])
-											  			newSkillId.push(updateSkillLink)
-									  					model.linkSkill(newSkillId,error=>{
+											  			updateSkillLink.unshift(newSkillId)
+											  			console.log(updateSkillLink)
+									  					model.updateSkills(updateSkillLink,error=>{
 									  						if (error) {
 											    				console.log("Update skill link failed", error);
 											    				response.sendStatus(500)
@@ -255,9 +258,5 @@ router.delete('/:name',(request,response)=>{
 		}
 	})
 })
-
-
-
-
 
 module.exports=router

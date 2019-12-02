@@ -2,6 +2,8 @@
 ## Summary
 This API catalouges the personas that are acquireable from Persona 5. Each persona will have a set of stats, skills, and elemental resistances.
 
+
+
 # Documentation
 ## Personas
 ### GET /api/personas/
@@ -20,6 +22,7 @@ This API catalouges the personas that are acquireable from Persona 5. Each perso
 }
 ```
 Personas
+
 |Name            |Description                           |Type    |
 |----------------|--------------------------------------|--------|
 |name            |The name of thie persona.             |string  |
@@ -77,13 +80,15 @@ Personas
     ]
 }
 ```
-Basic Infromation
+Basic Information
+
 |Name            |Description                                           |Type    |
 |----------------|------------------------------------------------------|--------|
 |name            |The name of chosen persona.                           |string  |
 |arcana          |The tarot card arcana for chosen persona.             |string  |
 
 Stats
+
 |Name            |Description                                           |Type    |
 |----------------|------------------------------------------------------|--------|
 |strength        |The strength rating for chosen persona.               |integer |
@@ -93,6 +98,7 @@ Stats
 |luck            |The luck rating for chosen persona.                   |integer |
 
 Elementals
+
 |Name            |Description                                           |Type    |
 |----------------|------------------------------------------------------|--------|
 |physical        |The physical resistance for chosen persona.           |string  |
@@ -107,6 +113,7 @@ Elementals
 |bless           |The bless resistance for chosen persona.              |string  |
 
 Skills
+
 |Name            |Description                                           |Type    |
 |----------------|------------------------------------------------------|--------|
 |name            |The title of the skill associated with chosen persona.|string  |

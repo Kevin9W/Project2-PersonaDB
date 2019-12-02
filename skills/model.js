@@ -24,7 +24,7 @@ function getSkillOid(skill,callback){
 
 function getPersonas(skill,callback){
 	let getPersonasQuery=`
-	SELECT personas.name FROM personas_skills
+	SELECT personas.name, personas.arcana FROM personas_skills
 	JOIN personas ON personas.oid=persona_id
 	JOIN skills ON skills.oid=skills_id
 	WHERE skills.name=?`
@@ -66,5 +66,6 @@ function deleteSkillLink(id,callback){
 }
 
 module.exports={
-	getAll, getOne, getPersonas, getSkillOid, createSkill, updateSkill, deleteSkill, deleteSkillLink
+	getAll, getOne, getPersonas, getSkillOid,
+	createSkill, updateSkill, deleteSkill, deleteSkillLink
 }

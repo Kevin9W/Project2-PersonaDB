@@ -16,6 +16,9 @@ GET | POST | PUT | DELETE
 
 ## Personas
 ### GET /api/personas/
+This route retrieves basic information from all personas.
+
+Response:
 ```
 {
     "personas": [
@@ -38,6 +41,7 @@ Personas
 |arcana          |The tarot card arcana of the persona. |string  |
 
 ### GET /api/personas/{name}/
+This route retrieves information about the persona with the {name} from the request parameters.
 
 Response:
 ```
@@ -131,7 +135,7 @@ Skills
 |type            |The type of the skill associated with chosen persona. |string  |
 
 ### POST /api/personas/
-Replace [PH] in the request body with values of the appropriate type.
+This route creates a new persona. Replace [PH] in the request body with values of the appropriate type.
 
 Request:
 ```
@@ -212,15 +216,14 @@ Elementals
 |curse           |The curse resistance for new persona.          	    |string  |
 |bless           |The bless resistance for new persona.          	    |string  |
 
-Skills - Up to 8 skills can be added.
+Skills - Up to 8 unique skills can be added.
 
 |Name            |Description                                           |Type    |
 |----------------|------------------------------------------------------|--------|
 |name            |The title of the skill associated with new persona.   |string  |
 
 ### PUT /api/personas/{name}/
-Persona to be updated uses {name} from request parameters.
-Replace [PH] in the request body with values of the appropriate type.
+This route updates the persona with the {name} from the request parameters. Replace [PH] in the request body with values of the appropriate type.
 
 Request:
 ```
@@ -301,9 +304,13 @@ Elementals
 |curse           |New curse resistance for new persona to be updated.   |string  |
 |bless           |New bless resistance for new persona to be updated.   |string  |
 
-Skills - Up to 8 skills can be updated or added.
+Skills - Up to 8 unique skills can be updated or added.
 
 |Name            |Description                                                      |Type    |
 |----------------|-----------------------------------------------------------------|--------|
 |name            |New title of the skill associated with new persona to be updated.|string  |
+
+### DELETE /api/personas/{name}/
+This request will delete the persona with the {name} from the request parameters. Will also delete all content and relations to this persona in other tables.
+
 

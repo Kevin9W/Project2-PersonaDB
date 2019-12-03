@@ -11,7 +11,9 @@ router.get('/',(request,response)=>{
 	    	console.log("Get all persona stats failed", error);
 	    	response.sendStatus(500)
 	    }
-	    else response.status(200).json(data)
+	    else response.status(200).json({
+	    	"personas":data
+	    })
 	})
 })
 

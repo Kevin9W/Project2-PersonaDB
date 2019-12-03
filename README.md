@@ -135,7 +135,7 @@ Skills
 |type            |The type of the skill associated with chosen persona. |string  |
 
 ### POST /api/personas/
-This route creates a new persona. Replace [PH] in the request body with values of the appropriate type.
+This route creates a new persona using the request body. Replace [PH] in the request body with values of the appropriate type.
 
 Request:
 ```
@@ -223,7 +223,7 @@ Skills - Up to 8 unique skills can be added.
 |name            |The title of the skill associated with new persona.   |string  |
 
 ### PUT /api/personas/{name}/
-This route updates the persona with the {name} from the request parameters. Replace [PH] in the request body with values of the appropriate type.
+This route updates the persona with the {name} from the request parameters using the request body. Replace [PH] in the request body with values of the appropriate type.
 
 Request:
 ```
@@ -367,6 +367,7 @@ Response:
     "cost_type": "SP"
 }
 ```
+
 |Name            |Description                                           |Type    |
 |----------------|------------------------------------------------------|--------|
 |name       	 |The name of the chosen skill.  						|string  |
@@ -400,6 +401,149 @@ Personas
 |name            |The name of persona with the chosen skill.            |string  |
 |arcana          |The tarot card arcana for persona with the chosen.    |string  |
 
+### POST /api/skills/
+This route will create a new skill using the request body. Replace [PH] in the request body with values of the appropriate type.
+
+Request:
+```
+{
+    "name": [PH],
+    "type": [PH],
+    "effect": [PH],
+    "cost": [PH],
+    "cost_type": [PH]
+}
+```
+
+|Name            |Description                                           |Type    |
+|----------------|------------------------------------------------------|--------|
+|name       	 |The name of the new skill.    						|string  |
+|type            |The elemental type of the new skill.   		        |string  |
+|effect    	     |The effect of the new skill.      				    |string  |
+|cost            |The interger cost of the new skill. 				    |integer |
+|cost_type       |The type of resource the new skill will consume.	    |string  |
+
+### PUT /api/skills/{name}/
+This route will update a skill with the {name} from the request parameters using the request body. Replace [PH] in the request body with values of the appropriate type.
+
+Request:
+```
+{
+    "name": [PH],
+    "type": [PH],
+    "effect": [PH],
+    "cost": [PH],
+    "cost_type": [PH]
+}
+```
+
+|Name            |Description                                           |Type    |
+|----------------|------------------------------------------------------|--------|
+|name       	 |Update name of the chosen skill.    					|string  |
+|type            |Update elemental type of the chosen skill.   		    |string  |
+|effect    	     |Update effect of the chosen skill.      			    |string  |
+|cost            |Update interger cost of the chosen skill. 		    |integer |
+|cost_type       |Update type of resource the chosen skill will consume.|string  |
+
+### DELETE /api/skills/{name}/
+This request will delete the skill with the {name} from the request parameters. Will also delete all content and relations to this skill in other tables excluding personas.
+
+## Stats
+### GET /api/stats/
+This route gets you all the stats for their respective personas.
+```
+{
+    "personas": [
+        {
+            "name": "Arsene",
+            "arcana": "Fool",
+            "strength": 2,
+            "magic": 2,
+            "endurance": 2,
+            "agility": 3,
+            "luck": 1
+        },
+        {
+            "name": "Jack-o'-Lantern",
+            "arcana": "Magician",
+            "strength": 2,
+            "magic": 3,
+            "endurance": 3,
+            "agility": 3,
+            "luck": 2
+        }
+    ]
+}
+```
+
+|Name            |Description                                           |Type    |
+|----------------|------------------------------------------------------|--------|
+|name 			 |The name of the persona.                    			|string	 |
+|arcana 		 |The tarot card arcana of the persona. 				|string  |
+|strength        |The strength rating for the persona.				    |integer |
+|magic           |The magic rating for the persona.       				|integer |
+|endurance       |The endurance for the persona.			            |integer |
+|agility         |The agility rating for the persona.			        |integer |
+|luck            |The luck rating for the persona.				        |integer |
 
 
+## Elementals
+### GET /api/elementals/
+This route gets you all the elemental resistances for their respective personas.
+```
+{
+    "personas": [
+        {
+            "name": "Arsene",
+            "arcana": "Fool",
+            "physical": "--",
+            "gun": "--",
+            "fire": "--",
+            "ice": "Weak",
+            "electric": "--",
+            "wind": "--",
+            "psychic": "--",
+            "nuclear": "--",
+            "curse": "Resist",
+            "bless": "Weak"
+        },
+        {
+            "name": "Jack-o'-Lantern",
+            "arcana": "Magician",
+            "physical": "--",
+            "gun": "Weak",
+            "fire": "Absorb",
+            "ice": "Weak",
+            "electric": "--",
+            "wind": "Weak",
+            "psychic": "--",
+            "nuclear": "--",
+            "curse": "--",
+            "bless": "--"
+        }
+    ]
+}
+```
 
+|Name            |Description                                           |Type    |
+|----------------|------------------------------------------------------|--------|
+|name 			 |The name of the persona. 								|string	 |
+|arcana 		 |The tarot card arcana of the persona. 				|string  |
+|physical        |The physical resistance for the persona.       	    |string  |
+|gun             |The gun resistance for the persona.      		        |string  |
+|fire            |The fire resistance for the persona.           	    |string  |
+|ice             |The ice resistance for the persona.              	  	|string  |
+|electric        |The electric resistance for the persona.         		|string  |
+|wind            |The wind resistance for the persona.              	|string  |
+|psychic         |The psychic resistance for the persona.           	|string  |
+|nuclear         |The nuclear resistance for the persona.           	|string  |
+|curse           |The curse resistance for the persona.              	|string  |
+|bless           |The bless resistance for the persona.              	|string  |
+
+## Technology Used
+Express | Nodemon | SQL 
+
+## Next Steps
+* Validation
+* Front End
+* Fusion Table

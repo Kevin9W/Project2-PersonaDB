@@ -86,28 +86,20 @@ router.put('/:name',(request,response)=>{
 
 router.delete('/:name',(request,response)=>{
 	let skillName=[request.params.name]
-	model.getSkillOid(skillName,(error,data)=>{
+	model.deleteSkill(skillName,function(error){
 		if (error) {
-	      	console.log("Find skill id failed", error);
+	      	console.log("Delete skill failed", error);
 	      	response.sendStatus(500)
 	    }
-	    else {	
-  	    	let skillOid=[data.rowid]
-			model.deleteSkill(skillName,error=>{
-				if (error) {
-			      	console.log("Delete skill failed", error);
+	    else {
+	       	let skillOid=this.lastID
+	    	model.deleteSkillLink(skillOid,error=>{
+	    		if (error) {
+			      	console.log("Delete skill link failed", error);
 			      	response.sendStatus(500)
 			    }
-			    else {   	
-			    	model.deleteSkillLink(skillOid,error=>{
-			    		if (error) {
-					      	console.log("Delete skill link failed", error);
-					      	response.sendStatus(500)
-					    }
-					    else {
-					    	response.sendStatus(200)
-					    }
-			    	})
+			    else {
+			    	response.sendStatus(200)
 			    }
 	    	})
 	    }

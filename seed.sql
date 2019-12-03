@@ -38,4 +38,17 @@ INSERT INTO personas_skills VALUES(2,10);
 INSERT INTO stats VALUES(2,2,3,3,3,2);
 INSERT INTO elementals VALUES(2,"--","Weak","Absorb","Weak","--","Weak","--","--","--","--");
 
+INSERT INTO personas VALUES ("Mandrake", "Death");
+INSERT INTO skills VALUES ("Energy Drop", "Healing", "Cure Confuse/Fear/Despair/Rage/Brainwash of 1 ally.", 4, "SP");
+INSERT INTO skills VALUES ("Pulinpa", "Aliment", "Inflict Confuse (high odds) to 1 foe.", 5, "SP");
+INSERT INTO skills VALUES ("Lunge", "Phys", "Deal weak Phys damage to 1 foe.", 5, "% HP");
+INSERT INTO skills VALUES ("Skull Crakcer", "Phys", "Deal medium Phys damage and inflict Confuse (medium odds) to 1 foe.", 10, "% HP");
+INSERT INTO personas_skills VALUES(3,11);
+INSERT INTO personas_skills VALUES(3,12);
+INSERT INTO personas_skills VALUES(3,13);
+INSERT INTO personas_skills VALUES(3,14);
+INSERT INTO personas_skills VALUES(3,3);
+INSERT INTO stats VALUES(3,2,3,3,4,4);
+INSERT INTO elementals VALUES(3,"--","--","Weak","--","Resist","--","--","--","--","--");
+
 INSERT INTO skills VALUES ("deleteMe", "Fire", "Deals 1337 Fire damage to 1 foe.", 4, "SP");

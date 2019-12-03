@@ -276,39 +276,39 @@ Basic Information
 
 |Name            |Description                                           |Type    |
 |----------------|------------------------------------------------------|--------|
-|name            |New name of persona to be updated.           	        |string  |
-|arcana          |New tarot card arcana for persona to be updated.      |string  |
+|name            |Update name of chosen persona.           	        	|string  |
+|arcana          |Update tarot card arcana for chosen persona.      	|string  |
 
 Stats
 
 |Name            |Description                                           |Type    |
 |----------------|------------------------------------------------------|--------|
-|strength        |New strength rating for new persona to be updated.    |integer |
-|magic           |New magic rating for new persona to be updated.       |integer |
-|endurance       |New endurance for new persona to be updated.          |integer |
-|agility         |New agility rating for new persona to be updated.     |integer |
-|luck            |New luck rating for new persona to be updated.        |integer |
+|strength        |Update strength rating for chosen persona.    		|integer |
+|magic           |Update magic rating for chosen persona.       		|integer |
+|endurance       |Update endurance for chosen persona.          		|integer |
+|agility         |Update agility rating for chosen persona.     		|integer |
+|luck            |Update luck rating for chosen persona.        		|integer |
 
 Elementals
 
 |Name            |Description                                           |Type    |
 |----------------|------------------------------------------------------|--------|
-|physical        |New physical resistance for new persona to be updated.|string  |
-|gun             |New gun resistance for new persona to be updated.     |string  |
-|fire            |New fire resistance for new persona to be updated.    |string  |
-|ice             |New ice resistance for new persona to be updated.     |string  |
-|electric        |New electric resistance for new persona to be updated.|string  |
-|wind            |New wind resistance for new persona to be updated.    |string  |
-|psychic         |New psychic resistance for new persona to be updated. |string  |
-|nuclear         |New nuclear resistance for new persona to be updated. |string  |
-|curse           |New curse resistance for new persona to be updated.   |string  |
-|bless           |New bless resistance for new persona to be updated.   |string  |
+|physical        |Update physical resistance for chosen persona.		|string  |
+|gun             |Update gun resistance for chosen persona.     		|string  |
+|fire            |Update fire resistance for chosen persona.    		|string  |
+|ice             |Update ice resistance for chosen persona.     		|string  |
+|electric        |Update electric resistance for chosen persona.		|string  |
+|wind            |Update wind resistance for chosen persona.    		|string  |
+|psychic         |Update psychic resistance for chosen persona. 		|string  |
+|nuclear         |Update nuclear resistance for chosen persona. 		|string  |
+|curse           |Update curse resistance for chosen persona.   		|string  |
+|bless           |Update bless resistance for chosen persona.   		|string  |
 
 Skills - Up to 8 unique skills can be updated or added.
 
 |Name            |Description                                                      |Type    |
 |----------------|-----------------------------------------------------------------|--------|
-|name            |New title of the skill associated with new persona to be updated.|string  |
+|name            |Update skill associated with chosen persona.|string  |
 
 ### DELETE /api/personas/{name}/
 This request will delete the persona with the {name} from the request parameters. Will also delete all content and relations to this persona in other tables.
@@ -541,7 +541,7 @@ This route gets you all the elemental resistances for their respective personas.
 |bless           |The bless resistance for the persona.              	|string  |
 
 ## Technology Used
-Express | Nodemon | SQL 
+Express | Node | SQL 
 
 ## Next Steps
 * Validation

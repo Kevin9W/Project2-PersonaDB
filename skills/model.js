@@ -19,7 +19,7 @@ function getSkillOid(skill,callback){
 	let getSkillQuery=`
 	SELECT skills.oid FROM skills
 	WHERE skills.name=?`
-	database.get(findSkillQuery,skill,callback)
+	database.get(getSkillQuery,skill,callback)
 }
 
 function getPersonas(skill,callback){

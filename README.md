@@ -2,17 +2,12 @@
 
 ## Table of Contents
 * Summary
-* Entities Diagram
 * Documentation
 * Technologies Used
 * Next Steps
 
 ## Summary
 This API catalouges the personas that are acquireable from Persona 5. Each persona will have a set of stats, skills, and elemental resistances.
-
-## Entities Diagram
-
-![Entities Diagram](/images/PersonaDB_entities_diagram)
 
 # Documentation
 

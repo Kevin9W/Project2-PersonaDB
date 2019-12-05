@@ -12,7 +12,7 @@ This API catalouges the personas that are acquireable from Persona 5. Each perso
 
 ## Entities Diagram
 
-![Entities Diagram](/images/PersonaDB_entities_diagram)
+![Entities Diagram](/images/PersonaDB_entities_diagram.png)
 
 # Documentation
 

@@ -28,4 +28,5 @@ database.run(createElementalsTableQuery, error => {
   else console.log("Create elementals table succeeded");
 });
 
+
 module.exports = database;

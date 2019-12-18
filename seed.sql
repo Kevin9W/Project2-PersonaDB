@@ -3,12 +3,14 @@ DROP TABLE IF EXISTS skills;
 DROP TABLE IF EXISTS personas_skills;
 DROP TABLE IF EXISTS stats;
 DROP TABLE IF EXISTS elementals;
+DROP TABLE IF EXISTS stock;
 
 CREATE TABLE personas (name TEXT, arcana TEXT);
 CREATE TABLE skills (name TEXT, type TEXT, effect TEXT, cost INTEGER, cost_type TEXT);
 CREATE TABLE personas_skills (persona_id INTEGER, skills_id INTEGER);
 CREATE TABLE stats (persona_id, strength INTEGER, magic INTEGER, endurance INTEGER, agility INTEGER, luck INTEGER);
 CREATE TABLE elementals (persona_id INTEGER, physical TEXT, gun TEXT, fire TEXT, ice TEXT, electric TEXT, wind TEXT, psychic TEXT, nuclear TEXT, bless TEXT, curse TEXT);
+CREATE TABLE stock (stock_id INTEGER, persona_id INTEGER);
 
 INSERT INTO personas VALUES ("Arsene", "Fool");
 INSERT INTO skills VALUES ("Eiha", "Curse", "Deals weak Curse damage to 1 foe.", 4, "SP");
@@ -50,5 +52,9 @@ INSERT INTO personas_skills VALUES(3,14);
 INSERT INTO personas_skills VALUES(3,3);
 INSERT INTO stats VALUES(3,2,3,3,4,4);
 INSERT INTO elementals VALUES(3,"--","--","Weak","--","Resist","--","--","--","--","--");
+
+INSERT INTO stock VALUES(1,1);
+INSERT INTO stock VALUES(1,2);
+INSERT INTO stock VALUES(1,3);
 
 INSERT INTO skills VALUES ("deleteMe", "Fire", "Deals 1337 Fire damage to 1 foe.", 4, "SP");

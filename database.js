@@ -6,6 +6,7 @@ const createSkillsTableQuery = "CREATE TABLE IF NOT EXISTS skills (name TEXT, ty
 const createPersonasSkillsTableQuery="CREATE TABLE IF NOT EXISTS personas_skills (persona_id INTEGER, skills_id INTEGER)"
 const createStatsTableQuery="CREATE TABLE IF NOT EXISTS stats (persona_id, strength INTEGER, magic INTEGER, endurance INTEGER, agility INTEGER, luck INTEGER)"
 const createElementalsTableQuery="CREATE TABLE IF NOT EXISTS elementals (persona_id INTEGER, physical TEXT, gun TEXT, fire TEXT, ice TEXT, electric TEXT, wind TEXT, psychic TEXT, nuclear TEXT, bless TEXT, curse TEXT)"
+const createStockTableQuery="CREATE TABLE IF NOT EXISTS stock (stock_id INTEGER, persona_id INTEGER)"
 //--Creating Tables---
 database.run(createPersonasTableQuery, error => {
   if (error) console.error(new Error("Create personas table failed."), error); 
@@ -27,6 +28,9 @@ database.run(createElementalsTableQuery, error => {
   if (error) console.error(new Error("Create elementals table failed."), error);
   else console.log("Create elementals table succeeded");
 });
-
+database.run(createStockTableQuery, error => {
+  if (error) console.error(new Error("Create stock table failed."), error);
+  else console.log("Create stock table succeeded");
+});
 
 module.exports = database;

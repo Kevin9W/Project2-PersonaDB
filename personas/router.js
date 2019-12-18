@@ -26,37 +26,37 @@ router.get('/:name',(request,response,next)=>{
 	     	console.log("Get one persona failed", error);
 	     	response.sendStatus(500)
 	    }
-	    else {
-	  		let foundInfo=data
-		    model.findEle(personaName,(error,data)=>{
-		    	if (error) {
-		    		console.log("Get one persona elementals failed", error);
-		     		response.sendStatus(500)
-			   	}
-			    else {
-			    	let foundEle=data
-				    model.findStats(personaName,(error,data)=>{
-				    	if (error) {
-				    		console.log("Get one persona stats failed", error);
-				     		response.sendStatus(500)
-					   	}
-					    else {
-					    	let foundStats=data
-						    model.findSkills(personaName,(error,data)=>{
-								if (error) {
-							    	console.log("Get one persona skills failed", error);
-							    	response.sendStatus(500)
-							    }
-							    else {
-							    	let foundSkills=data
-							    	response.status(200).json({
-							    		"name":foundInfo.name,
-							    		"arcana":foundInfo.arcana,
-							    		"stats":[foundStats],
-							    		"elementals":[foundEle],
-							    		"skills":foundSkills
-							    	})
-							    }
+    else {
+  		let foundInfo=data
+	    model.findEle(personaName,(error,data)=>{
+	    	if (error) {
+	    		console.log("Get one persona elementals failed", error);
+	     		response.sendStatus(500)
+		   	}
+		    else {
+		    	let foundEle=data
+			    model.findStats(personaName,(error,data)=>{
+			    	if (error) {
+			    		console.log("Get one persona stats failed", error);
+			     		response.sendStatus(500)
+				   	}
+				    else {
+				    	let foundStats=data
+					    model.findSkills(personaName,(error,data)=>{
+							if (error) {
+						    	console.log("Get one persona skills failed", error);
+						    	response.sendStatus(500)
+						    }
+						    else {
+						    	let foundSkills=data
+						    	response.status(200).json({
+						    		"name":foundInfo.name,
+						    		"arcana":foundInfo.arcana,
+						    		"stats":[foundStats],
+						    		"elementals":[foundEle],
+						    		"skills":foundSkills
+						    	})
+						    }
 							})
 						}
 					})
@@ -81,45 +81,45 @@ router.post('/',(request,response)=>{
 	     	console.log("Create new persona failed", error);
 	    	response.sendStatus(500)
 	    }
-	    else {
-    		let newOID=this.lastID
-    		newStats.unshift(newOID)
-	    	model.createStats(newStats,error=>{
-		    	if (error) {
-		    		console.log("Create new persona stats failed", error);
-		    		response.sendStatus(500)
-		  		}
-		  		else {
-		  			newEle.unshift(newOID)
-		  			model.createEle(newEle,error=>{
-				    	if (error) {
-				    		console.log("Create new persona elementals failed", error);
-				    		response.sendStatus(500)
+	  else {
+			let newOID=this.lastID
+			newStats.unshift(newOID)
+	  	model.createStats(newStats,error=>{
+	    	if (error) {
+	    		console.log("Create new persona stats failed", error);
+	    		response.sendStatus(500)
+	  		}
+	  		else {
+	  			newEle.unshift(newOID)
+	  			model.createEle(newEle,error=>{
+			    	if (error) {
+			    		console.log("Create new persona elementals failed", error);
+			    		response.sendStatus(500)
+			  		}
+			  		else {
+			  			for (let skill of newSkills){
+				  			model.findSkillOid([skill],(error,data)=>{
+						    	if (error) {
+						    		console.log("Find new skills oid failed", error);
+						    		response.sendStatus(500)
+						  		}
+						  		else {
+						  			let newSkillOID=data.rowid
+						  			let newSkillLink=[newOID,newSkillOID]
+				  					model.linkSkill(newSkillLink,error=>{
+				  						if (error) {
+						    				console.log("Link new skill failed", error);
+						    				response.sendStatus(500)
+						  				}		
+				  					})
+				  				}
+			  				})
 				  		}
-				  		else {
-				  			for (let skill of newSkills){
-					  			model.findSkillOid([skill],(error,data)=>{
-							    	if (error) {
-							    		console.log("Find new skills oid failed", error);
-							    		response.sendStatus(500)
-							  		}
-							  		else {
-							  			let newSkillOID=data.rowid
-							  			let newSkillLink=[newOID,newSkillOID]
-					  					model.linkSkill(newSkillLink,error=>{
-					  						if (error) {
-							    				console.log("Link new skill failed", error);
-							    				response.sendStatus(500)
-							  				}		
-					  					})
-					  				}
-				  				})
-					  		}
-					  		response.sendStatus(200)
-				  		}
-				    })
-		  		}
-		    })
+				  		response.sendStatus(200)
+			  		}
+			    })
+	  		}
+	    })
 		}
 	})
 })
@@ -163,27 +163,24 @@ router.put('/:name',(request,response)=>{
 							    	response.sendStatus(500)
 							    }
 							    else {
-							    	model.findP_SRow(oidToChange,(error,data)=>{
+							    	model.deleteSkillsRelations(oidToChange,(error)=>{
 							    		if (error) {
 									     	console.log("Find personas_skills data failed", error);
 									    	response.sendStatus(500)
 									    }
 									    else {
-									    	let oldSkillsArr=data
-											for (let i=0;i<newSkills.length;i++){
-									  			model.findSkillOid([newSkills[i]],(error,data)=>{
+												for (let skill of newSkills){
+									  			model.findSkillOid([skill],(error,data)=>{
 											    	if (error) {
 											    		console.log("Find new skills oid failed", error);
 											    		response.sendStatus(500)
 											  		}
 											  		else {
-											  			let newSkillId=data.rowid
-											  			let updateSkillLink=Object.values(oldSkillsArr[i])
-											  			updateSkillLink.unshift(newSkillId)
-											  			console.log(updateSkillLink)
-									  					model.updateSkills(updateSkillLink,error=>{
+											  			let newSkillOID=data.rowid
+											  			let newSkillLink=[oidToChange,newSkillOID]
+									  					model.linkSkill(newSkillLink,error=>{
 									  						if (error) {
-											    				console.log("Update skill link failed", error);
+											    				console.log("Link new skill failed", error);
 											    				response.sendStatus(500)
 											  				}		
 									  					})
@@ -193,8 +190,8 @@ router.put('/:name',(request,response)=>{
 								  			response.sendStatus(200)
 								  		}
 							  		})
-								}
-							})
+									}
+								})
 					    }
 			    	})
 			    }
@@ -209,37 +206,39 @@ router.delete('/:name',(request,response)=>{
 	let toDelete=[request.params.name]
 	model.deletePersona(toDelete,function(error){
 		if (error) {
-	      console.log("Create delete persona failed", error);
-	      response.sendStatus(500)
-	    }
-	    else{
-	    	let toDeleteOid=this.lastID
-	    	model.deleteStats(toDeleteOid,error=>{
-	    		if (error) {
-			      console.log("Create delete persona failed", error);
-			      response.sendStatus(500)
-			    }
-			    else{
-			    	model.deleteEle(toDeleteOid,error=>{
-			    		if (error) {
-					      console.log("Create delete persona failed", error);
-					      response.sendStatus(500)
-					    }
-					    else{
-					    	model.deleteSkills(toDeleteOid,error=>{
-					    		if (error) {
-							      console.log("Create delete persona failed", error);
-							      response.sendStatus(500)
-							    }
-							    else{
-							    	response.sendStatus(200)
-							    }
-					    	})
-					    }
-			    	})
-			    }
-	    	})
-	    }
+      console.log("Delete persona failed", error);
+      response.sendStatus(500)
+    }
+    else{
+    	let oidToDelete=this.lastID
+    	model.deleteStats(oidToDelete,error=>{
+    		if (error) {
+		      console.log("Delete persona stats failed", error);
+		      response.sendStatus(500)
+		    }
+		  })
+    	model.deleteEle(oidToDelete,error=>{
+    		if (error) {
+		      console.log("Delete persona elementals failed", error);
+		      response.sendStatus(500)
+		    }
+		  })
+    	model.deleteSkillsRelations(oidToDelete,error=>{
+    		if (error) {
+		      console.log("Delete persona_skills relations failed", error);
+		      response.sendStatus(500)
+		    }
+		  })
+    	model.deleteFromStock(oidToDelete,error=>{
+    		if (error) {
+		      console.log("Delete persona from stock failed", error);
+		      response.sendStatus(500)
+		    }
+		    else{
+	    		response.sendStatus(200)
+	    	}
+			})
+    }
 	})
 })
 

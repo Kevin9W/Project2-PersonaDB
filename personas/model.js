@@ -135,18 +135,28 @@ function deleteEle(id,callback){
 	WHERE persona_id=?`
 	database.run(deleteEleQuery,id,callback)
 }
-function deleteSkills(id,callback){
+function deleteSkillsRelations(id,callback){
 	let deleteSkillsQuery=`
 	DELETE FROM personas_skills
 	WHERE persona_id=?`
 	database.run(deleteSkillsQuery,id,callback)
 }
 
+function deleteFromStock(id,callback){
+	let deleteFromStockQuery=`
+	DELETE FROM stock
+	WHERE persona_id=?`
+	database.run(deleteFromStockQuery,id,callback)
+
+}
+
+//---Exports---
+
 module.exports={
 	getAll, findInfo, findSkills, findStats, findEle,
 	createInfo, createStats,createEle, findOid, findSkillOid, linkSkill,
 	updateInfo, updateStats, updateEle, updateSkills, findP_SRow,
-	deletePersona, deleteStats, deleteEle,deleteSkills,
+	deletePersona, deleteStats, deleteEle, deleteSkillsRelations, deleteFromStock
 }
 
 

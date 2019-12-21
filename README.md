@@ -8,7 +8,9 @@
 * Next Steps
 
 ## Summary
-This API catalouges the personas that are acquireable from Persona 5. Each persona will have a set of stats, skills, and elemental resistances.
+This API catalouges the personas that are acquireable from Persona 5. Each persona will have a set of stats, skills, and elemental resistances. Link to the frontend can be found through the link below.
+
+[Link to frontend](https://github.com/Kevin9W/project3)
 
 ## Entities Diagram
 
@@ -18,6 +20,25 @@ This API catalouges the personas that are acquireable from Persona 5. Each perso
 
 ## Methods
 GET | POST | PUT | DELETE
+
+*"Assuming you are using Unix based OS"*
+
+Navigate to the directory replacing [PH] with the name of the repository
+```
+$cd [PH]
+```
+To install necessary modules, run the following command:
+```
+$npm install
+```
+To start the server, run the following command:
+```
+$npm start
+```
+To create seed data for the api, run the following command:
+```
+$node seed.js
+```
 
 ## Personas
 ### GET /api/personas/
@@ -550,5 +571,4 @@ Express | Node | SQL
 
 ## Next Steps
 * Validation
-* Front End
 * Fusion Table

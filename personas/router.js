@@ -217,7 +217,6 @@ router.delete('/:name',(request,response)=>{
 		      response.sendStatus(500)
 		    }
 		    else{
-		    	console.log(oidToDelete)
 		    	model.deleteStats(oidToDelete,error=>{
 		    		if (error) {
 				      console.log("Delete persona stats failed", error);

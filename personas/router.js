@@ -204,42 +204,58 @@ router.put('/:name',(request,response)=>{
 
 router.delete('/:name',(request,response)=>{
 	let toDelete=[request.params.name]
-	model.deletePersona(toDelete,function(error){
+	model.findOid(toDelete,(error,data)=>{
 		if (error) {
-      console.log("Delete persona failed", error);
+      console.log("find persona oid failed", error);
       response.sendStatus(500)
     }
     else{
-    	let oidToDelete=this.lastID
-    	model.deleteStats(oidToDelete,error=>{
-    		if (error) {
-		      console.log("Delete persona stats failed", error);
-		      response.sendStatus(500)
-		    }
-		  })
-    	model.deleteEle(oidToDelete,error=>{
-    		if (error) {
-		      console.log("Delete persona elementals failed", error);
-		      response.sendStatus(500)
-		    }
-		  })
-    	model.deleteSkillsRelations(oidToDelete,error=>{
-    		if (error) {
-		      console.log("Delete persona_skills relations failed", error);
-		      response.sendStatus(500)
-		    }
-		  })
-    	model.deleteFromStock(oidToDelete,error=>{
-    		if (error) {
-		      console.log("Delete persona from stock failed", error);
+    	let oidToDelete=data.rowid
+			model.deletePersona(toDelete,(error)=>{
+				if (error) {
+		      console.log("Delete persona failed", error);
 		      response.sendStatus(500)
 		    }
 		    else{
-	    		response.sendStatus(200)
-	    	}
+		    	console.log(oidToDelete)
+		    	model.deleteStats(oidToDelete,error=>{
+		    		if (error) {
+				      console.log("Delete persona stats failed", error);
+				      response.sendStatus(500)
+				    }
+				    else{
+				    	model.deleteEle(oidToDelete,error=>{
+				    		if (error) {
+						      console.log("Delete persona elementals failed", error);
+						      response.sendStatus(500)
+						    }
+						  	else{
+						    	model.deleteSkillsRelations(oidToDelete,error=>{
+						    		if (error) {
+								      console.log("Delete persona_skills relations failed", error);
+								      response.sendStatus(500)
+								    }
+								    else{
+							    		response.sendStatus(200)
+							    	}
+							   //  	model.deleteFromStock(oidToDelete,error=>{
+							   //  		if (error) {
+									 //      console.log("Delete persona from stock failed", error);
+									 //      response.sendStatus(500)
+									 //    }
+									 //    else{
+								  //   		response.sendStatus(200)
+								  //   	}
+										// })
+									})
+						    }
+							})
+				    }
+					})
+		    }
 			})
-    }
-	})
+		}
+	})		
 })
 
 module.exports=router
